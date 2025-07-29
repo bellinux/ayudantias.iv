@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1692/1692181.png" type="image/png">
+    
+    <title>Ayudantia-8-Protobject</title>
+    <link rel="stylesheet" href="style.css" />
+    
+    <style>
+      svg.map {
+  width: 5000px;
+  height: 600px;
+}
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/tonejs-instruments@1.0.1/+esm"></script>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/papaparse/papaparse.min.js"></script>
+    
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
+    
+</head>
+
+  
+  <body>
+    
+  <div class="header">
+    <div class="header-fixed">
+      <span>IIC2016</span>
+    </div>
+    <div class="header-notFixed">
+      <h1>Ayudantía Protobject</h1>
+      <p>Creando visualizaciones físicas</p>
+    </div>
+  </div> 
+
+  
+  <div class="content">
+    
+    <h1 id="titulo">Principios: Visualizaciones físicas</h1>
+    
+    <p>
+    InfoVis tiene el objetivo de crear experiencias para que la comprender datos de una forma más didactica y entretenida. 
+    Para esto usaremos nuestros celulares y la librería de JavaScript <a href="https://framework.protobject.com/">Protobject</a>.
+    <br><br>
+    Independiente de que modulo de protobject ocupen va a tener la siguiente estructura:
+    
+    <div class="section">
+    <h2> Nuestra visualización 👁</h2>
+    <ul>
+      <li><strong>Archivos principales:</strong> <code>index.html</code>, <code>style.css</code>, <code>script.js</code></li>
+      <li>Contiene la visualización en sí: interfaz gráfica, estilos y lógica interactiva con JavaScript.</li>
+    </ul>
+    </div>
+
+    <div class="section">
+    <h2> Archivo <code>config.js</code> ⚙ </h2>
+    <ul>
+      <li>Este script conecta la visualización con nuestro <strong>celular</strong>.</li>
+      <li>Actúa como un puente de comunicación, ocupando la función <code>Protobject.initialize()</code></li>
+    </ul>
+    </div>
+
+    <div class="section">
+    <h2>Nuestro <code>protobject</code> 📱 </h2>
+    <ul>
+      <li><strong>Archivos:</strong> <code>protobject.html</code> y su script asociado (<code>protobject.js</code>)</li>
+      <li>Representa la experiencia que verá el usuario en su <strong>teléfono móvil</strong>.</li>
+      <li>Puede incluir elementos interactivos como botones, conexión a la cámara del usuario, sensores (giroscopio, acelerómetro), vibración, etc.</li>
+    </ul>
+    </div>
+    
+    <a href="ejemplo-1/index.html">Ejemplo de una visualización básica</a>
+    
+    </p>
+    
+    <h1 id="titulo">Marcadores ArUco: Asociando datos a códigos</h1>
+    
+    <p>
+    Los Marcadores ArUco son marcadores fiduciales usando patrones visuales en blanco y negro 
+    para identificar objetos o posiciones en el espacio tridimensional.
+    <br><br>
+    Estos están asociados a una librería de Protoobject donde al identificar un marcador en especifico 
+    manda una alerta al código principal (main.js).
+    <br><br>
+    Para generar estos marcadores se pueden crear ocupando <a href="https://chev.me/arucogen/">Generadores</a>.
+    <br><br>
+    <div class="marker"><svg viewBox="0 0 7 7" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" width="100mm" height="100mm"><rect x="0" y="0" width="7" height="7" fill="black"></rect><rect width="1" height="1" x="1" y="1" fill="white"></rect><rect width="1" height="1.5" x="1" y="1" fill="white"></rect><rect width="1" height="1" x="1" y="2" fill="white"></rect><rect width="1.5" height="1" x="3" y="2" fill="white"></rect><rect width="1.5" height="1" x="4" y="2" fill="white"></rect><rect width="1" height="1" x="5" y="2" fill="white"></rect><rect width="1" height="1.5" x="5" y="2" fill="white"></rect><rect width="1" height="1" x="2" y="3" fill="white"></rect><rect width="1" height="1" x="5" y="3" fill="white"></rect><rect width="1" height="1.5" x="5" y="3" fill="white"></rect><rect width="1" height="1" x="1" y="4" fill="white"></rect><rect width="1" height="1.5" x="1" y="4" fill="white"></rect><rect width="1.5" height="1" x="3" y="4" fill="white"></rect><rect width="1.5" height="1" x="4" y="4" fill="white"></rect><rect width="1" height="1" x="5" y="4" fill="white"></rect><rect width="1" height="1" x="1" y="5" fill="white"></rect></svg></div>
+    <br><br>
+    <strong>NOTA:</strong> Al momento de crear un marcador Aruco, recuerden ocupar "original ArUco"
+    </p>
+    
+    <a href="ejemplo-2/index.html">Ejemplo Aplicado usando Marcadores Aruco</a>
+    
+    
+     
+    <h1 id="titulo">Orientation: Detectando el ángulo del celular</h1>
+    
+    <p>
+    Este es un  módulo incluido en Protoobject que utiliza el giroscopio la velocidad angular (basandose en los ejes X, Y y Z).
+    y emite estos datos en tiempor real transmitiendolo al código principal (main.js).
+    <br><br>
+    La implementación es útil para hacer visualizaciones con las que se pueda ocupar activamente (Teniendo movimientos en vivo).
+    </p>
+    
+    <div style="text-align: center;">
+      <img src="https://i.ibb.co/4nrHsYfV/descargar.png" alt="descargar">
+    </div>
+
+  
+    <br>
+    Imagen retirada de:  <a href="https://www.meshpedia.com/wp-content/uploads/2022/08/Untitled-design-18.png">Meshpedia</a>
+  
+    <br><br>
+    
+    
+    <a href="ejemplo-3/index.html">Ejemplo Aplicado usando Orientation</a>
+    
+  </div>
+    
+    <script src="script.js"></script>
+    
+  </body>
+</html>

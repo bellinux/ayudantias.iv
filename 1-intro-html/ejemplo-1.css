@@ -1,0 +1,45 @@
+/* Aqui puedes agregar tu estilo para que se vea más bonito tu página :)*/
+
+/* A modo resumen:
+
+#identificador_1 {
+}
+
+.clase_1{
+}
+
+etiqueta_1{
+}
+
+*/
+/*Cambiamos el elemento con clase="primero" a color rojo*/
+.primero{
+  color: red;
+}
+
+
+.orange{
+    color:rgb(217, 150, 100);
+    font-family: 'Rockwell', Rockwell, monospace;
+}
+
+/*elemento con id="blue" sera de color azul*/
+#blue{
+    color: yellow;
+}
+
+/*Todos los elementos que sean parrafos, seran verdes y de 40px*/
+p{
+    color: green;
+    font-size: 70px;
+    margin-left: 20px;
+}
+/*cambiamos la tipografia*/
+body{
+    margin-left: 40px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#imagen{
+    width: 400px;
+}

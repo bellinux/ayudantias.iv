@@ -1,0 +1,9 @@
+.chart-container {
+  margin: 10px auto;  /* vertical spacing + horizontal centering */
+  max-width: 1500px;   /* limit max width */
+  width: 90vw;        /* responsive width */
+}
+
+h2 {
+      font-family: sans-serif;
+  }

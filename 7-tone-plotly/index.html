@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://i.ibb.co/0Vqz5Z4L/1151e1a337b29f9e5df3da602a32c893-removebg-preview.png" type="image/png">
+    
+    <title>Ayudantia-7-Tone-Visualisation</title>
+    <link rel="stylesheet" href="style.css" />
+    
+    <style>
+      svg.map {
+  width: 5000px;
+  height: 600px;
+}
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/tonejs-instruments@1.0.1/+esm"></script>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/papaparse/papaparse.min.js"></script>
+    
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
+
+
+    
+    
+</head>
+
+  
+  <body>
+    
+  <div class="header">
+    <div class="header-fixed">
+      <span>IIC2016</span>
+    </div>
+    <div class="header-notFixed">
+      <h1>Ayudantía Tone/Plotly</h1>
+      <p>Muchos sonidos, colores y gráficas</p>
+    </div>
+  </div> 
+
+  
+  <div class="content">
+    
+    
+    <h1 id="smaller-title">Disney vs. Ghibli</h1>
+    <label for="yearRange">Start Year: </label>
+    <input type="range" id="yearRange" step="1" />
+    <span id="yearLabel"></span>
+    
+    <div id="Movies"></div>
+
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <button id="button-64" role="button"><span class="text">Escucha la diferencia</span></button>
+    </div>
+    <p class="attribution">
+      La información para hacer estas visualizaciones fue retirada de los datasets en Kaggle: 
+      <br>
+      <a href="https://www.kaggle.com/datasets/labledata/ghibli-dataset">Ghibli Dataset</a> y <a href="https://www.kaggle.com/datasets/suvroo/disney-movies-dataset">Disney Movies Dataset</a>
+    </p>
+    
+    <h1 id="smaller-title">Las consolas más populares de distintas compañías</h1>
+    
+    <label for="companySelect">Selecciona la compañía:</label>
+<select id="companySelect" class="box">
+    <option value="Sony">Sony</option>
+    <option value="Nintendo">Nintendo</option>
+    <option value="Microsoft">Microsoft</option>
+</select>
+
+    <br><br>
+    <br><br>
+
+    <canvas id="consoleChart" width="400" height="200"></canvas>
+    
+    <p class="attribution">
+      La información para hacer estas visualizaciones se recuperó haciendo WebScrapping del articulo de Wikipedia: 
+      <br>
+      <a href="https://en.wikipedia.org/wiki/List_of_best-selling_game_consoles">List of best-selling game consoles</a>
+    </p>
+    
+    <h1 id="smaller-title">Volcanes de Japón y sus alturas</h1>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <svg class="map" width="800" height="400"></svg>
+    </div>
+    <div id="tooltip" style="
+  position: absolute;
+  visibility: hidden;
+  background: white;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+"></div>
+    
+  <p class="attribution">
+      La información para hacer estas visualizaciones se recuperó de: 
+      <br>
+      <a href="https://catalog.data.gov/dataset/kirishima-japan-images2">DataGov</a>
+  </p>
+  
+  <audio id="player"></audio>
+  
+  </div>
+  
+</div>
+    <script src="script.js"></script>
+  </body>
+</html>

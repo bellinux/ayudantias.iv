@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1692/1692181.png" type="image/png">
+    
+    
+    <title>Ayudantia-8-Protobject</title>
+    <link rel="stylesheet" href="style.css" />
+    
+    <style>
+      svg.map {
+  width: 5000px;
+  height: 600px;
+}
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/tonejs-instruments@1.0.1/+esm"></script>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/papaparse/papaparse.min.js"></script>
+    
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  
+    
+    
+    
+    
+</head>
+
+<body>
+<main class="content-wrap">
+        <div id="vis"></div>
+    <script src="https://app.protobject.com/framework/p.js"></script>
+    <script src="config.js"></script>
+  
+    
+        <div id="top-countries"
+            style="position: absolute; top: 20px; left: 2%; font-size: 15px; font-weight: bold; text-align: center;">
+            Paises con la mayor prevalencia
+        </div>
+        <div class="slider-container">
+            <label for="yearSlider">Selecciona un año:</label>
+            <input type="range" id="yearSlider" min="1980" max="2012" value="1997" step="1">
+            <button id="playPauseButton">▶️ Animación por los años ▶️</button>
+        </div>
+
+        <div id="additional-info">
+            <div class="table"></div>
+            <div style="top: 150px; left: 10px;"></div>
+        </div>
+
+
+        <div id="vis2"></div>
+        <footer class="site-footer">
+            <p>La información fue retirada de: <a href="https://ourworldindata.org/smoking" target="_blank"
+                    rel="noopener noreferrer">Our World in Data</a>&nbsp;(Smoking)</p>
+        </footer>
+        <script type="module" src="script.js"></script>
+
+  
+  </main>
+  </body>
