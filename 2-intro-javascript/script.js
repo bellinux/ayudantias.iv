@@ -32,12 +32,13 @@ console.log(saludo2);
 let arreglo = ["hola", "hello", "bonjour", "hallo"];
 //Accedemos al primer elemento de nuestro array
 const variable = arreglo[0]; // "hola"
-// console.log(variable)
+console.log(variable)
 
 // Agregar un nuevo elemento al final del arreglo
-arreglo.push("ciao");const largo = arreglo.length; // 5
+arreglo.push("ciao");
+const largo = arreglo.length; // 5
 console.log(largo)
-// console.log(arreglo)
+console.log(arreglo)
 
 // Creando objetos (basicamente son diccionarios)
 let mejorPelicula = {
@@ -49,9 +50,9 @@ let mejorPelicula = {
 const titulo = mejorPelicula["titulo"]; // "Anora"
 const año = mejorPelicula.año; // 2024
 const me_gusta_por = mejorPelicula["genero"][0]; // "Drama" 
-// console.log(titulo)
-// console.log(año)
-// console.log(me_gusta_por)
+console.log(titulo)
+console.log(año)
+console.log(me_gusta_por)
 
 // Podemos agregar nuevos atributos a un objeto
 mejorPelicula.director = "Sean Baker";
@@ -76,6 +77,11 @@ if (x < 5) {
   console.log("x es mayor que 5");
 }
 
+const edad = 20;
+let esMayorDeEdad = (edad >= 18) ? true : false;
+console.log("Es mayor de edad = " + esMayorDeEdad); // Output: true
+
+
 //Ciclos
 
 for (let i = 0; i < 5; i++) {
@@ -96,6 +102,7 @@ while (y < 5) {
 function sumar9(numero) {
   return numero + 9;
 }
+
 console.log("Resultado de la function sumar9(6)):", sumar9(6));
 console.log("Resultado de la function sumar9(sumar9(6)):", sumar9(sumar9(6)));
 
@@ -106,6 +113,7 @@ const sumar10 = function (numero) {
 };
 console.log("Resultado de la function sumar10(6)):", sumar10(6));
 console.log("Resultado de la function sumar10(sumar9(6)):", sumar10(sumar9(6)));
+
 
 
 // Funciones con varios argumentos
@@ -127,7 +135,7 @@ const saludos = (nombre) => {
     return "Hola, " + nombre + "!";
 };
 
-console.log(saludos("Fernanda"));
+console.log(saludos("Jaime"));
 
 
 
@@ -142,3 +150,6 @@ console.log(max_value);
 let lista = [1, 5, 3, 9, 2];
 max_value = Math.max(...lista);
 console.log(max_value);
+
+
+//console.log(...lista)
