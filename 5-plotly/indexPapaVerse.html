@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Agrego PapaParse (papaverse) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Sección: CSV -> JSON usando PapaParse -->
+    <section style="margin-top:20px;">
+      <h3>Convertir CSV a JSON (PapaParse)</h3>
+      <input id="csv-file" type="file" accept=".csv" />
+      <button id="parse-file">Parsear archivo</button>
+      <button id="save-json">Guardar JSON</button>
+      <div>
+        <strong>Salida JSON:</strong>
+        <pre id="csv-json-output" style="max-height:300px;overflow:auto;background:#f6f6f6;padding:10px;"></pre>
+      </div>
+    </section>
+
+    <!-- Sección de ejemplo remoto -->
+    <section style="margin-top:12px;">
+      <h4>Ejemplo remoto</h4>
+      <p>Parsear un CSV alojado localmente en el proyecto (ejemplo: Video_Games_Sales...)</p>
+      <button id="parse-sample">Parsear CSV de ejemplo (Video_Games_Sales...)</button>
+    </section>
+
+    <script>
+
+
+/* Funciones para CSV -> JSON usando PapaParse (papaverse) */
+const fileInput = document.getElementById('csv-file');
+const parseBtn = document.getElementById('parse-file');
+const parseSampleBtn = document.getElementById('parse-sample');
+const saveBtn = document.getElementById('save-json');
+const output = document.getElementById('csv-json-output');
+
+let lastParsed = null; // guarda el último JSON parseado
+
+function displayJSON(obj) {
+  lastParsed = obj;
+  output.textContent = JSON.stringify(obj, null, 2);
+}
+
+parseBtn.addEventListener('click', () => {
+  const file = fileInput.files[0];
+  if (!file) {
+    output.textContent = 'Seleccione un archivo CSV.';
+    return;
+  }
+  Papa.parse(file, {
+    header: true,
+    dynamicTyping: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      displayJSON(results.data);
+    },
+    error: function(err) {
+      output.textContent = 'Error al parsear: ' + err.message;
+    }
+  });
+});
+
+// Parsear CSV remoto (ejemplo: mismo archivo usado arriba)
+parseSampleBtn.addEventListener('click', () => {
+  const url = 'Video_Games_Sales_as_at_22_Dec_2016.csv';
+  output.textContent = 'Descargando y parseando...';
+  Papa.parse(url, {
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      displayJSON(results.data.slice(0, 200)); // mostrar hasta 200 filas como ejemplo
+    },
+    error: function(err) {
+      output.textContent = 'Error al parsear remoto: ' + err.message;
+    }
+  });
+});
+
+// Guardar JSON parseado en un archivo descargable
+saveBtn.addEventListener('click', () => {
+  if (!lastParsed) {
+    output.textContent = 'No hay datos parseados para guardar.';
+    return;
+  }
+  try {
+    const jsonStr = JSON.stringify(lastParsed, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'parsed.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    output.textContent = 'Error al guardar: ' + (err.message || err);
+  }
+});
+
+
+    </script>
+  </body>
+</html>

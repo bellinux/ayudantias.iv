@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+
+  <body>
+    <div id="graph-points" style="width:600px;height:350px;"></div>
+    <div id="graph-lines" style="width:600px;height:250px;"></div>
+    <div id="graph-barras" style="width:600px;height:250px;"></div>
+    <div id="graph-barras-grupo" style="width:600px;height:250px;"></div>
+    <div id="graph-barras-stack" style="width:600px;height:250px;"></div>
+    <div id="graph-torta" style="width:600px;height:350px;"></div>
+    <div id="graph-ventas"></div>
+  
+    <script>
+/*Grafico de puntos*/
+        const datos1 = [{
+            x: [1, 2, 3, 4, 5],
+            y: [1, 2, 4, 8, 16],
+            mode: 'markers',
+            type: 'scatter'
+        }];
+        const layout = {
+            margin: { t: 40},
+            title: {text: 'Gráfico de puntos'}
+        };
+
+//Le pasamos al gráfico los datos y sus caracteristicas
+        Plotly.newPlot('graph-points', datos1, layout);
+
+//Grafico de lineas
+        var datos2 = [{
+        x: [1, 2, 3, 4],
+        y: [12, 9, 15, 12],
+        mode: 'lines+markers',
+        type: 'scatter'
+        }];
+        const layout2 = {
+            margin: { t: 40},
+            title: {text: 'Gráfico de lineas'}
+        };
+        Plotly.newPlot('graph-lines', datos2, layout2);
+
+//grafico de barras
+        const datos3 = [{
+            x: ['Fitness','Futbol','Ciclismo','Running','Tenis'],
+            y: [28,26,10,7,4],
+            type: 'bar'
+        }];
+        const layout_barras = {
+            margin: { t: 40},
+            title: {text: 'Porcentaje de personas que practican tal deporte'}
+        };
+        Plotly.newPlot('graph-barras', datos3, layout_barras);
+
+//grafico de barras por grupo
+//Ejemplo sacado de la documentación: https://plotly.com/javascript/bar-charts/
+var trace1 = {
+  x: ['giraffes', 'orangutans', 'monkeys'],
+  y: [20, 14, 23],
+  name: 'SF Zoo',
+  type: 'bar'
+};
+
+var trace2 = {
+  x: ['giraffes', 'orangutans', 'monkeys'],
+  y: [12, 18, 29],
+  name: 'LA Zoo',
+  type: 'bar'
+};
+
+var data = [trace1, trace2];
+
+var layout_barras_grupo = {barmode: 'group'};
+
+Plotly.newPlot('graph-barras-grupo', data, layout_barras_grupo);
+
+//grafico de barra stack
+var trace1 = {
+  x: [20, 14, 23],
+  y: ['giraffes', 'orangutans', 'monkeys'],
+  name: 'SF Zoo',
+  orientation: 'h',
+  marker: {
+    color: 'rgba(55,128,191,0.6)',
+    width: 1
+  },
+  type: 'bar'
+};
+
+var trace2 = {
+  x: [12, 18, 29],
+  y: ['giraffes', 'orangutans', 'monkeys'],
+  name: 'LA Zoo',
+  orientation: 'h',
+  type: 'bar',
+  marker: {
+    color: 'rgba(255,153,51,0.6)',
+    width: 1
+  }
+};
+
+var data3 = [trace1, trace2];
+
+var layout_barras_stack = {
+  title: {
+    text: 'Colored Bar Chart'
+  },
+  barmode: 'stack'
+};
+
+Plotly.newPlot('graph-barras-stack', data3, layout_barras_stack);
+
+//Grafico de torta
+const datos_torta = [{
+            labels: ['Fitness','Futbol','Ciclismo','Running','Tenis'],
+            values: [28,26,10,7,4],
+            type: 'pie'
+        }];
+        
+const layout_torta = {
+    title: {text: 'Gráfico de torta'}
+};
+Plotly.newPlot('graph-torta', datos_torta, layout_torta);
+
+//grafico ventas
+async function fetchData() {
+    const response = await fetch('Video_Games_Sales_as_at_22_Dec_2016.csv');
+    const data = await response.text();
+    // Eliminar la fila de encabezado
+    const rows = data.split('\n').slice(1); 
+    const salesByYear = {};
+
+    // Iterar sobre las filas para agrupar por año y sumar las ventas globales
+    rows.forEach(row => {
+        const cols = row.split(',');
+        const year = cols[2]; // Columna de "Year"
+        const globalSales = parseFloat(cols[9]); // Columna de "Global_Sales"
+
+        if (year && !isNaN(globalSales)) {
+            if (salesByYear[year]) {
+                salesByYear[year] += globalSales; 
+            } else {
+                salesByYear[year] = globalSales; 
+            }
+        }
+    });
+
+    const years = Object.keys(salesByYear);
+    const values = Object.values(salesByYear);
+
+    return { years, values };
+}
+
+fetchData().then(data => {
+    const data_ventas = [{
+        x: data.years,  
+        y: data.values, 
+        type: 'bar',
+        name: 'Ventas Globales'
+    }];
+
+    const layout_ventas = {
+        title: 'Ventas de videojuegos por Año',
+        xaxis: { title: 'Año' },
+        yaxis: { title: 'Ventas Globales (millones)' },
+        margin: { t: 50, b: 50 }
+    };
+
+    Plotly.newPlot('graph-ventas', data_ventas, layout_ventas);
+});
+
+
+    </script>
+  </body>
+</html>
