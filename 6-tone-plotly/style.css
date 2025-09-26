@@ -1,0 +1,204 @@
+/****  Diseño recuperado de: https://wpdean.com/css-header/  ****/
+
+
+/****  Base  ****/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #ffffff;
+  font-family: arial;
+  font-size: 18px;
+}
+
+p {
+  margin-bottom: 40px;
+  
+  &:last-child {
+    margin-bottom: 0px;
+  }
+}
+
+h1, h2, h3 {
+  margin: 10px 0 20px 0;
+}
+
+
+/****  Header  ****/
+
+.header {
+  background: #1B56FD;
+  height: 200px;
+  color: #efefef;
+}
+
+.header-fixed {
+  @fixedHeight: 40px;
+  background: #1B56FD;
+  font-size: 14px;
+  position: fixed;
+  line-height: 20px;
+  height: 20px;
+  text-indent: 20px;
+  width: 100%;
+  z-index: 1000;
+}
+
+.header-notFixed {
+  text-align: center;
+  font-size: 28px;
+  padding: 60px 0; /* Add space top and bottom */
+  
+  p {
+    margin: 0;
+    padding: 5px 0;
+    z-index: 9999;
+    position: relative;
+  }
+  
+  h1 {
+    margin: 0;
+    padding: 5px 0;
+    font-size: 50px;
+    z-index: 9999;
+    position: relative;
+  }
+  
+}
+
+/****  Content  ****/
+
+.content {
+  width: 80%;
+  max-width: 1200px;
+  background: #ffffff;
+  margin: 150px auto;
+  min-height: 700px;
+  padding: 100px;
+  color: #444;
+}
+
+
+#titulo {
+    color: blueviolet;
+    text-align: center;
+    font-size: 50px;
+}
+
+.attribution {
+  margin: 40px 0;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.map {
+  /* Additional positioning for fine control */
+  margin-left: 20px;
+}
+
+#smaller-title {
+  font-family: 'Arial', sans-serif;  /* Use Arial for a simple sans-serif look */
+  font-size: 24px;                  /* Set font size similar to a plot title */
+  font-weight: bold;                /* Make it bold */
+  text-align: center;               /* Center the text like a plot title */
+  margin-top: 20px;                 /* Add margin to the top to separate from other content */
+}
+
+/* Boton retirado de: https://getcssscan.com/css-buttons-examples */
+
+/* CSS */
+#button-64 {
+  background-color: transparent;
+  border: 1px solid #266DB6;
+  box-sizing: border-box;
+  color: #00132C;
+  font-family: "Avenir Next LT W01 Bold", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  padding: 16px 23px;
+  position: relative;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  overflow: hidden; /* Ensures the pseudo-element stays within the bounds of the button */
+}
+
+#button-64:hover,
+#button-64:active {
+  outline: 0;
+}
+
+#button-64:hover {
+  cursor: pointer;
+  background-color: #6DCFF6; /* Add the background color to the button on hover */
+}
+
+#button-64:before {
+  background-color: #D5EDF6;
+  content: "";
+  height: calc(100% + 3px);
+  position: absolute;
+  right: -7px;
+  top: -9px;
+  transition: background-color 300ms ease-in;
+  width: 100%;
+  z-index: -1;
+}
+
+#button-64:hover:before {
+  background-color: #D5EDF6; /* Keep the blue color transition for the pseudo-element */
+}
+
+@media (min-width: 768px) {
+  #button-64 {
+    padding: 16px 32px;
+  }
+}
+
+.box {
+    width: 120px;
+    height: 30px;
+    border: 1px solid #999;
+    font-size: 18px;
+    color: #1c87c9;
+    background-color: #eee;
+    border-radius: 5px;
+    box-shadow: 4px 4px #ccc;
+  }
+
+
+#yearRange {
+  width: 85%;  /* Keeps the slider at 85% of its container */
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  position: relative;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+#yearRange::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px;
+  background: #ddd;
+}
+
+#yearRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 60px;  /* Large thumb size */
+  height: 30px; /* Large thumb size */
+  background: url('https://i.ibb.co/gZFKq57y/descargar.png') no-repeat center center;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  transform: translateY(-10px) translateX(0px); /* Center the thumb on the slider */
+}
+

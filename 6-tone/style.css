@@ -1,0 +1,166 @@
+/****  Diseño recuperado de: https://wpdean.com/css-header/  ****/
+
+/****  Variables  ****/
+
+@white: #efefef;
+@orange: tomato;
+
+@height: 200px;
+
+/****  Base  ****/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #ffffff;
+  font-family: arial;
+  font-size: 18px;
+}
+
+p {
+  margin-bottom: 40px;
+  
+  &:last-child {
+    margin-bottom: 0px;
+  }
+}
+
+h1, h2, h3 {
+  margin: 10px 0 20px 0;
+}
+
+
+/****  Header  ****/
+
+.header {
+  background: #1B56FD;
+  height: 200px;
+  color: #efefef;
+}
+
+.header-fixed {
+  @fixedHeight: 40px;
+  background: #1B56FD;
+  font-size: 14px;
+  position: fixed;
+  line-height: 20px;
+  height: 20px;
+  text-indent: 20px;
+  width: 100%;
+  z-index: 1000;
+}
+
+.header-notFixed {
+  text-align: center;
+  font-size: 28px;
+  padding: 60px 0; /* Add space top and bottom */
+  
+  p {
+    margin: 0;
+    padding: 5px 0;
+    z-index: 9999;
+    position: relative;
+  }
+  
+  h1 {
+    margin: 0;
+    padding: 5px 0;
+    font-size: 50px;
+    z-index: 9999;
+    position: relative;
+  }
+  
+}
+
+/****  Content  ****/
+
+.content {
+  width: 80%;
+  max-width: 1200px;
+  background: #ffffff;
+  margin: 150px auto;
+  min-height: 700px;
+  padding: 100px;
+  color: #444;
+}
+
+
+#titulo {
+    color: blueviolet;
+    text-align: center;
+    font-size: 50px;
+}
+
+#Cars, #Pizza, .map {
+  display: flex;
+  justify-content: center;  /* Center the map horizontally */
+  align-items: center;      /* Center the map vertically */
+}
+
+.map {
+  /* Additional positioning for fine control */
+  margin-left: 20px;
+}
+
+#smaller-title {
+  font-family: 'Arial', sans-serif;  /* Use Arial for a simple sans-serif look */
+  font-size: 24px;                  /* Set font size similar to a plot title */
+  font-weight: bold;                /* Make it bold */
+  text-align: center;               /* Center the text like a plot title */
+  margin-top: 20px;                 /* Add margin to the top to separate from other content */
+}
+
+/* Boton retirado de: https://getcssscan.com/css-buttons-examples */
+
+#button-64 {
+  align-items: center;
+  background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 10px 20px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-family: Phantomsans, sans-serif;
+  font-size: 16px; /* Reduced from 20px */
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 100px; /* Reduced from 140px */
+  padding: 2px; /* Reduced */
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#button-64:active,
+.button-64:hover {
+  outline: 0;
+}
+
+#button-64 span {
+  background-color: rgb(5, 6, 45);
+  padding: 10px 16px; /* Reduced from 16px 24px */
+  border-radius: 4px;
+  width: 100%;
+  height: 100%;
+  transition: 300ms;
+}
+
+#button-64:hover span {
+  background: none;
+}
+
+@media (min-width: 768px) {
+  #button-64 {
+    font-size: 18px; /* Adjusted for larger screens */
+    min-width: 140px; /* Slightly smaller than before */
+  }
+}

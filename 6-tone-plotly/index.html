@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<!-- 
+=================== TUTORIAL: VISUALIZACIÓN INTERACTIVA CON SONIFICACIÓN ===================
+
+Este archivo HTML es la base de una aplicación web que combina:
+- Visualización de datos (Plotly.js, Chart.js, D3.js)
+- Sonificación (Tone.js, Web Audio API)
+- Interactividad (eventos del DOM, tooltips)
+- Accesibilidad (síntesis de voz)
+
+Perfecto para aprender cómo integrar múltiples tecnologías en un solo proyecto.
+-->
+<html lang="en">
+  <head>
+    <!-- Configuración básica del documento HTML -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://i.ibb.co/0Vqz5Z4L/1151e1a337b29f9e5df3da602a32c893-removebg-preview.png" type="image/png">
+    
+    <title>Ayudantia-7-Tone-Visualisation</title>
+    <!-- Enlace a nuestros estilos CSS personalizados -->
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- 
+    Estilos CSS embebidos para el mapa:
+    
+    Definimos el tamaño del elemento SVG que contendrá nuestro mapa de Japón.
+    SVG (Scalable Vector Graphics) es ideal para visualizaciones geográficas
+    porque mantiene la calidad a cualquier tamaño.
+    -->
+    <style>
+      svg.map {
+        width: 1200px;   /* Ancho aumentado para mejor visualización */
+        height: 800px;   /* Altura aumentada para más detalle */
+        border: 1px solid #ddd; /* Borde para definir el área del mapa */
+        display: block;  /* Para centrado correcto */
+        margin: 0 auto;  /* Centrar el mapa horizontalmente */
+      }
+      
+      /* Contenedor del mapa para scroll horizontal si es necesario */
+      .map-container {
+        width: 100%;
+        overflow-x: auto; /* Permite scroll horizontal si el mapa es muy ancho */
+        text-align: center;
+      }
+    </style>
+    
+    <!-- 
+    =================== CARGA DE BIBLIOTECAS EXTERNAS ===================
+    
+    Aquí cargamos todas las bibliotecas JavaScript que necesitamos.
+    El orden de carga es importante: las dependencias deben cargarse antes que el código que las usa.
+    -->
+    
+    <!-- 
+    TONE.JS INSTRUMENTS: Biblioteca para sonificación avanzada
+    - Proporciona instrumentos virtuales y efectos de audio
+    - Extiende las capacidades de Tone.js con samples de instrumentos reales
+    - Usado para: crear sonidos musicales a partir de datos
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/tonejs-instruments@1.0.1/+esm"></script>
+    
+    <!-- 
+    D3.JS v7: La biblioteca más poderosa para visualización de datos
+    - Manipulación de DOM basada en datos
+    - Proyecciones geográficas y mapas
+    - Animaciones y transiciones
+    - Usado para: el mapa de volcanes de Japón y carga de CSV
+    -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>   
+    
+    <!-- 
+    PAPA PARSE: Biblioteca especializada en procesamiento de archivos CSV
+    - Convierte CSV a objetos JavaScript
+    - Maneja archivos grandes y complejos
+    - Detección automática de tipos de datos
+    - Usado para: procesar datos de consolas de videojuegos
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse/papaparse.min.js"></script>
+    
+    <!-- 
+    TOPOJSON CLIENT: Biblioteca para trabajar con datos geográficos comprimidos
+    - Convierte TopoJSON a GeoJSON
+    - Optimiza archivos de mapas (menor tamaño)
+    - Usado para: procesar archivos de mapas eficientemente
+    -->
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    
+    <!-- 
+    PLOTLY.JS: Biblioteca principal de visualización para este tutorial
+    - Gráficos interactivos de alta calidad
+    - Soporte para zoom, pan, hover, etc.
+    - Fácil de usar pero muy potente
+    - Usado para: gráfico de líneas Disney vs Ghibli
+    -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- 
+    CHART.JS: Biblioteca alternativa de gráficos
+    - Especializada en gráficos de barras, líneas, donas, etc.
+    - Excelente rendimiento y customización
+    - Diferente enfoque a Plotly (más programático)
+    - Usado para: gráfico de barras de consolas
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- 
+    CHART.JS ZOOM PLUGIN: Extensión para Chart.js
+    - Agrega capacidades de zoom y pan a los gráficos
+    - Mejora la interactividad del usuario
+    - Usado para: permitir exploración detallada de datos
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
+
+
+    
+    
+</head>
+
+  
+  <body>
+    <!-- 
+    =================== ESTRUCTURA DEL DOCUMENTO ===================
+    
+    El body contiene toda la interfaz de usuario de nuestra aplicación.
+    Está organizado en secciones que corresponden a diferentes tipos de visualización.
+    -->
+    
+    <!-- 
+    HEADER: Encabezado de la página
+    - Información de contexto (curso, título)
+    - Descripción breve del contenido
+    - Elementos de navegación visual
+    -->
+  <div class="header">
+    <div class="header-fixed">
+      <span>IIC2016</span>  <!-- Código del curso -->
+    </div>
+    <div class="header-notFixed">
+      <h1>Ayudantía Tone/Plotly</h1>           <!-- Título principal -->
+      <p>Muchos sonidos, colores y gráficas</p> <!-- Descripción del contenido -->
+    </div>
+  </div> 
+
+  
+  <div class="content">
+    <!-- 
+    =================== SECCIÓN 1: SONIFICACIÓN CON PLOTLY ===================
+    
+    Esta sección demuestra cómo combinar:
+    - Visualización interactiva (Plotly.js)
+    - Sonificación de datos (Tone.js/Web Audio API)
+    - Controles de usuario (slider, botones)
+    -->
+    
+    <h1 id="smaller-title">Disney vs. Ghibli</h1>
+    
+    <!-- 
+    CONTROL DESLIZANTE (SLIDER):
+    - Permite al usuario filtrar datos por año
+    - Conectado con JavaScript para actualizar gráfico en tiempo real
+    - El atributo 'for' conecta la etiqueta con el input
+    -->
+    <label for="yearRange">Start Year: </label>
+    <input type="range" id="yearRange" step="1" />
+    <span id="yearLabel"></span>  <!-- Muestra el rango actual de años -->
+    
+    <!-- 
+    CONTENEDOR DEL GRÁFICO PLOTLY:
+    - Plotly.js buscará este elemento por su ID
+    - Aquí se renderizará el gráfico de líneas interactivo
+    - La visualización mostrará ingresos de películas a lo largo del tiempo
+    -->
+    <div id="Movies"></div>
+
+    <!-- 
+    BOTÓN DE SONIFICACIÓN:
+    - Trigger para convertir datos visuales en sonido
+    - Demuestra el concepto de "sonificación de datos"
+    - Cada película se convierte en una nota musical
+    -->
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <button id="button-64" role="button">
+        <span class="text">Escucha la diferencia</span>
+      </button>
+    </div>
+    <!-- 
+    ATRIBUCIÓN DE DATOS:
+    - Importante: siempre citar las fuentes de datos
+    - Kaggle es una plataforma popular para datasets de práctica
+    - Los enlaces permiten verificar y explorar los datos originales
+    -->
+    <p class="attribution">
+      La información para hacer estas visualizaciones fue retirada de los datasets en Kaggle: 
+      <br>
+      <a href="https://www.kaggle.com/datasets/labledata/ghibli-dataset">Ghibli Dataset</a> y 
+      <a href="https://www.kaggle.com/datasets/suvroo/disney-movies-dataset">Disney Movies Dataset</a>
+    </p>
+    
+    <!-- 
+    =================== SECCIÓN 2: GRÁFICO INTERACTIVO CON CHART.JS ===================
+    
+    Esta sección demuestra:
+    - Gráficos de barras interactivos (Chart.js vs Plotly.js)
+    - Síntesis de voz para accesibilidad
+    - Filtrado dinámico de datos
+    - Diferentes enfoques de visualización
+    -->
+    
+    <h1 id="smaller-title">Las consolas más populares de distintas compañías</h1>
+    
+    <!-- 
+    SELECTOR DROPDOWN:
+    - Permite filtrar datos por compañía (Sony, Nintendo, Microsoft)
+    - Conectado con JavaScript para actualizar gráfico automáticamente
+    - Demuestra interactividad reactiva
+    -->
+    <label for="companySelect">Selecciona la compañía:</label>
+    <select id="companySelect" class="box">
+        <option value="Sony">Sony</option>
+        <option value="Nintendo">Nintendo</option>
+        <option value="Microsoft">Microsoft</option>
+    </select>
+
+    <br><br>
+    <br><br>
+
+    <!-- 
+    ELEMENTO CANVAS PARA CHART.JS:
+    - Chart.js requiere un elemento <canvas> (diferente a Plotly que usa <div>)
+    - Canvas permite renderizado 2D de alta performance
+    - Las dimensiones se pueden ajustar desde CSS o JavaScript
+    -->
+    <canvas id="consoleChart" width="400" height="200"></canvas>
+    
+    <!-- 
+    ATRIBUCIÓN DE DATOS - WEB SCRAPING:
+    - Estos datos fueron extraídos de Wikipedia usando técnicas de web scraping
+    - Web scraping: proceso automatizado de extraer datos de sitios web
+    - Importante: siempre respetar robots.txt y términos de uso
+    -->
+    <p class="attribution">
+      La información para hacer estas visualizaciones se recuperó haciendo WebScrapping del articulo de Wikipedia: 
+      <br>
+      <a href="https://en.wikipedia.org/wiki/List_of_best-selling_game_consoles">List of best-selling game consoles</a>
+    </p>
+    
+    <!-- 
+    =================== SECCIÓN 3: MAPA GEOGRÁFICO CON D3.JS ===================
+    
+    Esta sección es la más compleja y demuestra:
+    - Visualización geográfica (mapas, proyecciones)
+    - Sonificación categórica (diferentes sonidos por categoría)
+    - Tooltips interactivos con visualizaciones integradas
+    - Manipulación avanzada del DOM con D3.js
+    -->
+    
+    <h1 id="smaller-title">Volcanes de Japón y sus alturas</h1>
+    
+    <!-- 
+    CONTENEDOR DEL MAPA SVG MEJORADO:
+    - Contenedor con scroll para mapas grandes
+    - SVG con tamaño aumentado para mejor visualización
+    - D3.js manipulará este elemento para dibujar el mapa
+    -->
+    <div class="map-container">
+      <svg class="map" width="1200" height="800"></svg>
+    </div>
+    
+    <!-- 
+    TOOLTIP PERSONALIZABLE:
+    - Elemento oculto que aparece al hacer hover sobre volcanes
+    - Posicionamiento absoluto para seguir el cursor del mouse
+    - Contiene información detallada y visualizaciones mini
+    - 'pointer-events: none' evita interferencia con eventos del mouse
+    -->
+    <div id="tooltip" style="
+      position: absolute;
+      visibility: hidden;
+      background: white;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 12px;
+      pointer-events: none;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    "></div>
+    
+    <!-- 
+    ATRIBUCIÓN DE DATOS GUBERNAMENTALES:
+    - Data.gov es el portal oficial de datos abiertos del gobierno de EE.UU.
+    - Los datos gubernamentales suelen ser de alta calidad y bien documentados
+    - Ideales para proyectos de visualización y análisis
+    -->
+    <p class="attribution">
+      La información para hacer estas visualizaciones se recuperó de: 
+      <br>
+      <a href="https://catalog.data.gov/dataset/kirishima-japan-images2">DataGov</a>
+    </p>
+  
+    <!-- 
+    ELEMENTO DE AUDIO:
+    - Preparado para posibles funcionalidades de audio adicionales
+    - Puede usarse como fallback si Web Audio API no está disponible
+    - Útil para debugging y testing de sonidos
+    -->
+    <audio id="player"></audio>
+  
+  </div> <!-- Fin del contenedor principal -->
+
+    <!-- 
+    =================== CARGA DEL SCRIPT PRINCIPAL ===================
+    
+    IMPORTANTE: El script se carga al final del <body>
+    
+    ¿Por qué al final?
+    1. Asegura que todos los elementos HTML estén disponibles cuando se ejecute el JavaScript
+    2. Mejora el tiempo de carga percibido (la página se ve antes de que termine de cargar JS)
+    3. Evita errores de "elemento no encontrado" al hacer getElementById()
+    
+    Este script contiene toda la lógica de:
+    - Sonificación con Tone.js y Web Audio API
+    - Visualizaciones con Plotly.js, Chart.js y D3.js
+    - Interactividad y manejo de eventos
+    - Procesamiento de datos CSV y GeoJSON
+    -->
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,153 @@
+<!-- ====== DECLARACIÓN DE DOCUMENTO HTML5 ====== -->
+<!DOCTYPE html>
+<html lang="es">  <!-- Cambiado a español para mejor accesibilidad -->
+  <head>
+    <!-- ====== CONFIGURACIÓN BÁSICA DEL DOCUMENTO ====== -->
+    <!-- Especifica la codificación de caracteres para mostrar correctamente acentos y símbolos -->
+    <meta charset="UTF-8">
+    
+    <!-- Hace que la página se vea bien en dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Icono que aparece en la pestaña del navegador (favicon) -->
+    <!-- Usamos un ícono de audición para representar el tema de sonificación -->
+    <link rel="icon" href="https://img.icons8.com/forma-bold/24/hearing.png" type="image/png">
+    
+    <!-- Título que aparece en la pestaña del navegador -->
+    <title>Ayudantía-6-Tone</title>
+    
+    <!-- Enlace a nuestro archivo CSS personalizado para estilos -->
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- ====== ESTILOS CSS ESPECÍFICOS PARA EL MAPA ====== -->
+    <!-- Estos estilos se aplican directamente en el HTML para configuraciones específicas -->
+    <style>
+      /* Configuración del tamaño del mapa SVG */
+      svg.map {
+        width: 5000px;   /* Ancho grande para permitir zoom y detalle */
+        height: 700px;   /* Alto proporcionado para mostrar España completa */
+      }
+    </style>
+    
+    <!-- ====== LIBRERÍAS JAVASCRIPT EXTERNAS ====== -->
+    <!-- Es importante cargar las librerías en el orden correcto -->
+    
+    <!-- TONE.JS: Librería para síntesis de audio y música en el navegador -->
+    <!-- Permite crear sintetizadores, efectos, y secuencias musicales -->
+    <script src="https://unpkg.com/tone"></script>
+    
+    <!-- D3.JS v7: Librería para manipulación de datos y creación de visualizaciones -->
+    <!-- Se usa para cargar CSV, procesar datos y crear mapas SVG -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- TOPOJSON-CLIENT: Librería para trabajar con datos geográficos -->
+    <!-- Convierte archivos TopoJSON a GeoJSON para usar con D3 -->
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    
+    <!-- PLOTLY.JS: Librería para crear gráficos interactivos -->
+    <!-- Genera gráficos de barras, líneas, circulares, etc. con interactividad -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+</head>
+
+  
+  <body>
+    
+  <!-- ====== ENCABEZADO DE LA PÁGINA ====== -->
+  <!-- El encabezado contiene el título y descripción de la aplicación -->
+  <div class="header">
+    <!-- Parte fija del encabezado que siempre se mantiene visible -->
+    <div class="header-fixed">
+      <span>IIC2016</span> <!-- Código del curso -->
+    </div>
+    
+    <!-- Parte principal del encabezado con información del tema -->
+    <div class="header-notFixed">
+      <h1>Ayudantía Tone.js</h1>
+      <p>Sonificando nuestras visualizaciones</p> <!-- Descripción del objetivo -->
+    </div>
+  </div> 
+
+  
+  <!-- ====== CONTENIDO PRINCIPAL DE LA APLICACIÓN ====== -->
+  <div class="content">
+    
+    <!-- ====== SECCIÓN 1: GRÁFICO DE AUTOS CON SONIFICACIÓN HOVER ====== -->
+    <!-- Esta sección demuestra sonificación reactiva con Web Audio API -->
+    <h1 id="smaller-title">Los autos más rápidos (por aceleración)</h1>
+    
+    <!-- Contenedor donde Plotly creará el gráfico de barras interactivo -->
+    <!-- El id "Cars" se usa en script.js para referenciar este elemento -->
+    <div id="Cars"></div>
+    
+    <!-- ====== SECCIÓN 2: GRÁFICO DE VENTAS CON MELODÍA TONE.JS ====== -->
+    <!-- Esta sección demuestra cómo convertir datos en secuencias musicales -->
+    <h1 id="smaller-title">Venta de pizzas mensuales</h1>
+    
+    <!-- Contenedor para el gráfico de líneas de ventas mensuales -->
+    <!-- El gráfico mostrará la evolución de ventas a lo largo del año -->
+    <div id="Pizza">
+    </div>
+    
+    <!-- Botón centrado que activa la reproducción de la melodía de datos -->
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <!-- IMPORTANTE: Tone.js requiere interacción del usuario para iniciar el audio -->
+      <!-- Este botón activa el contexto de audio y reproduce la secuencia musical -->
+      <button id="button-64" role="button">
+        <span class="text">Escuchar las ventas</span> <!-- Texto del botón -->
+      </button>
+    </div>
+    
+    <!-- Espaciado visual entre secciones -->
+    <br>
+    <br>
+    
+    <!-- ====== SECCIÓN 3: MAPA INTERACTIVO CON SÍNTESIS DE VOZ ====== -->
+    <!-- Esta sección demuestra TTS (Text-To-Speech) integrado con visualizaciones geográficas -->
+    <h1 id="smaller-title">Festivales Musicales en España 2023 (por comunidad autónoma)</h1>
+    
+    <!-- Contenedor centrado para el mapa SVG -->
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <!-- Elemento SVG donde D3.js dibujará el mapa de España -->
+      <!-- La clase "map" se usa para aplicar estilos CSS específicos -->
+      <!-- Al hacer clic en las regiones, se activará la síntesis de voz -->
+      <svg class="map" width="800" height="400"></svg>
+    </div>
+    
+    <!-- Espaciado visual entre secciones -->
+    <br>
+    <br>
+    
+    
+</div> <!-- Fin del contenedor principal -->
+    
+    
+    <!-- ====== CARGA DEL SCRIPT PRINCIPAL ====== -->
+    <!-- IMPORTANTE: El script se carga al final del body para asegurar que -->
+    <!-- todos los elementos HTML estén disponibles cuando se ejecute el código -->
+    <script src="script.js"></script>
+  </body>
+</html>
+
+<!-- ====== RESUMEN DE LA ESTRUCTURA DE LA APLICACIÓN ====== -->
+<!--
+Esta aplicación demuestra 4 técnicas diferentes de sonificación de datos:
+
+1. OSCILADORES WEB AUDIO API (Sección Autos):
+   - Genera tonos dinámicos que cambian según los datos
+   - Se activa con eventos hover/unhover del mouse
+   - Frecuencias mapeadas a valores de aceleración
+
+2. TONE.JS PARA MELODÍAS (Sección Pizza):
+   - Convierte datos de ventas en secuencias musicales
+   - Usa sintetizadores virtuales para generar notas
+   - Requiere interacción del usuario (botón) para iniciar
+
+3. SÍNTESIS DE VOZ TTS (Sección Mapa):
+   - El navegador "habla" información de los datos
+   - Se activa al hacer clic en regiones del mapa
+   - Configuración de voz en español
+
+Todas las técnicas se combinan con visualizaciones interactivas de Plotly y D3.js
+para crear una experiencia multimedia completa de exploración de datos.
+-->
